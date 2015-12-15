@@ -9,11 +9,13 @@
 /* Begin PBXBuildFile section */
 		E97087DD1C202CEF00053A75 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97087DC1C202CEF00053A75 /* AppDelegate.swift */; };
 		E97087DF1C202CEF00053A75 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97087DE1C202CEF00053A75 /* ViewController.swift */; };
-		E97087E21C202CEF00053A75 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E97087E01C202CEF00053A75 /* Main.storyboard */; };
 		E97087E41C202CEF00053A75 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E97087E31C202CEF00053A75 /* Assets.xcassets */; };
 		E97087E71C202CEF00053A75 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E97087E51C202CEF00053A75 /* LaunchScreen.storyboard */; };
 		E97087F21C202CEF00053A75 /* GeekWeatherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97087F11C202CEF00053A75 /* GeekWeatherTests.swift */; };
 		E97087FD1C202CEF00053A75 /* GeekWeatherUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97087FC1C202CEF00053A75 /* GeekWeatherUITests.swift */; };
+		E97088161C2039F800053A75 /* CommandLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97088151C2039F800053A75 /* CommandLine.swift */; };
+		E97088181C203A2200053A75 /* CommandOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97088171C203A2200053A75 /* CommandOption.swift */; };
+		E970881A1C203A4400053A75 /* CommandLineParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97088191C203A4400053A75 /* CommandLineParser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,7 +39,6 @@
 		E97087D91C202CEF00053A75 /* GeekWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GeekWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E97087DC1C202CEF00053A75 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E97087DE1C202CEF00053A75 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		E97087E11C202CEF00053A75 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E97087E31C202CEF00053A75 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E97087E61C202CEF00053A75 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E97087E81C202CEF00053A75 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -47,6 +48,9 @@
 		E97087F81C202CEF00053A75 /* GeekWeatherUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GeekWeatherUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E97087FC1C202CEF00053A75 /* GeekWeatherUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeekWeatherUITests.swift; sourceTree = "<group>"; };
 		E97087FE1C202CEF00053A75 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E97088151C2039F800053A75 /* CommandLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandLine.swift; sourceTree = "<group>"; };
+		E97088171C203A2200053A75 /* CommandOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandOption.swift; sourceTree = "<group>"; };
+		E97088191C203A4400053A75 /* CommandLineParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandLineParser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,9 +101,11 @@
 		E97087DB1C202CEF00053A75 /* GeekWeather */ = {
 			isa = PBXGroup;
 			children = (
+				E970880C1C2038FC00053A75 /* Models */,
+				E970880D1C2038FC00053A75 /* Utils */,
+				E970880F1C2038FC00053A75 /* Views */,
 				E97087DC1C202CEF00053A75 /* AppDelegate.swift */,
 				E97087DE1C202CEF00053A75 /* ViewController.swift */,
-				E97087E01C202CEF00053A75 /* Main.storyboard */,
 				E97087E31C202CEF00053A75 /* Assets.xcassets */,
 				E97087E51C202CEF00053A75 /* LaunchScreen.storyboard */,
 				E97087E81C202CEF00053A75 /* Info.plist */,
@@ -123,6 +129,30 @@
 				E97087FE1C202CEF00053A75 /* Info.plist */,
 			);
 			path = GeekWeatherUITests;
+			sourceTree = "<group>";
+		};
+		E970880C1C2038FC00053A75 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E97088151C2039F800053A75 /* CommandLine.swift */,
+				E97088171C203A2200053A75 /* CommandOption.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E970880D1C2038FC00053A75 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				E97088191C203A4400053A75 /* CommandLineParser.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		E970880F1C2038FC00053A75 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,7 +261,6 @@
 			files = (
 				E97087E71C202CEF00053A75 /* LaunchScreen.storyboard in Resources */,
 				E97087E41C202CEF00053A75 /* Assets.xcassets in Resources */,
-				E97087E21C202CEF00053A75 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,8 +285,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E97088161C2039F800053A75 /* CommandLine.swift in Sources */,
 				E97087DF1C202CEF00053A75 /* ViewController.swift in Sources */,
+				E97088181C203A2200053A75 /* CommandOption.swift in Sources */,
 				E97087DD1C202CEF00053A75 /* AppDelegate.swift in Sources */,
+				E970881A1C203A4400053A75 /* CommandLineParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,14 +325,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		E97087E01C202CEF00053A75 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E97087E11C202CEF00053A75 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		E97087E51C202CEF00053A75 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
