@@ -16,6 +16,7 @@
 		E97088161C2039F800053A75 /* CommandLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97088151C2039F800053A75 /* CommandLine.swift */; };
 		E97088181C203A2200053A75 /* CommandOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97088171C203A2200053A75 /* CommandOption.swift */; };
 		E970881A1C203A4400053A75 /* CommandLineParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97088191C203A4400053A75 /* CommandLineParser.swift */; };
+		E970881C1C20EAA500053A75 /* CommandLineParserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E970881B1C20EAA500053A75 /* CommandLineParserTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		E97088151C2039F800053A75 /* CommandLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandLine.swift; sourceTree = "<group>"; };
 		E97088171C203A2200053A75 /* CommandOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandOption.swift; sourceTree = "<group>"; };
 		E97088191C203A4400053A75 /* CommandLineParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandLineParser.swift; sourceTree = "<group>"; };
+		E970881B1C20EAA500053A75 /* CommandLineParserTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandLineParserTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				E97087F11C202CEF00053A75 /* GeekWeatherTests.swift */,
+				E970881B1C20EAA500053A75 /* CommandLineParserTest.swift */,
 				E97087F31C202CEF00053A75 /* Info.plist */,
 			);
 			path = GeekWeatherTests;
@@ -297,6 +300,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E970881C1C20EAA500053A75 /* CommandLineParserTest.swift in Sources */,
 				E97087F21C202CEF00053A75 /* GeekWeatherTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
