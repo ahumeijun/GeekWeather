@@ -206,24 +206,24 @@ class CommandLineParserTest: XCTestCase {
     }
     
     func testParse() {
-        let commandLine1 : CommandLine = CommandLineParser.shareParser.parse("svn commit -m helloworld")!
-        let commandLine2 : CommandLine = CommandLineParser.shareParser.parse("svn commit -m helloworld")!
-        let commandLine3 : CommandLine = CommandLineParser.shareParser.parse("svn  commit -m helloworld")!
-        let commandLine4 : CommandLine = CommandLineParser.shareParser.parse("svn commit  -m helloworld")!
-        let commandLine5 : CommandLine = CommandLineParser.shareParser.parse("svn commit -m  helloworld")!
-        let commandLine6 : CommandLine = CommandLineParser.shareParser.parse("svn -m helloworld commit")!
+        let commandLine1 : CommandLine = try! CommandLineParser.shareParser.parse("svn commit -m helloworld")!
+        let commandLine2 : CommandLine = try! CommandLineParser.shareParser.parse("svn commit -m helloworld")!
+        let commandLine3 : CommandLine = try! CommandLineParser.shareParser.parse("svn  commit -m helloworld")!
+        let commandLine4 : CommandLine = try! CommandLineParser.shareParser.parse("svn commit  -m helloworld")!
+        let commandLine5 : CommandLine = try! CommandLineParser.shareParser.parse("svn commit -m  helloworld")!
+        let commandLine6 : CommandLine = try! CommandLineParser.shareParser.parse("svn -m helloworld commit")!
         
-        let commandLine7 : CommandLine = CommandLineParser.shareParser.parse("svn commit dir -m hello -n world")!
-        let commandLine8 : CommandLine = CommandLineParser.shareParser.parse("svn commit dir -n world -m hello")!
-        let commandLine9 : CommandLine = CommandLineParser.shareParser.parse("svn commit -m hello dir -n world")!
-        let commandLine0 : CommandLine = CommandLineParser.shareParser.parse("svn -m hello commit dir -n world")!
+        let commandLine7 : CommandLine = try! CommandLineParser.shareParser.parse("svn commit dir -m hello -n world")!
+        let commandLine8 : CommandLine = try! CommandLineParser.shareParser.parse("svn commit dir -n world -m hello")!
+        let commandLine9 : CommandLine = try! CommandLineParser.shareParser.parse("svn commit -m hello dir -n world")!
+        let commandLine0 : CommandLine = try! CommandLineParser.shareParser.parse("svn -m hello commit dir -n world")!
         
-        let commandLine10 : CommandLine = CommandLineParser.shareParser.parse("svn cat -vct")!
-        let commandLine11 : CommandLine = CommandLineParser.shareParser.parse("svn -vct cat")!
-        let commandLine12 : CommandLine = CommandLineParser.shareParser.parse("svn cat -v -c -t")!
-        let commandLine13 : CommandLine = CommandLineParser.shareParser.parse("svn cat -vc -t")!
-        let commandLine14 : CommandLine = CommandLineParser.shareParser.parse("svn cat -v -ct")!
-        let commandLine15 : CommandLine = CommandLineParser.shareParser.parse("svn cat -ctv")!
+        let commandLine10 : CommandLine = try! CommandLineParser.shareParser.parse("svn cat -vct")!
+        let commandLine11 : CommandLine = try! CommandLineParser.shareParser.parse("svn -vct cat")!
+        let commandLine12 : CommandLine = try! CommandLineParser.shareParser.parse("svn cat -v -c -t")!
+        let commandLine13 : CommandLine = try! CommandLineParser.shareParser.parse("svn cat -vc -t")!
+        let commandLine14 : CommandLine = try! CommandLineParser.shareParser.parse("svn cat -v -ct")!
+        let commandLine15 : CommandLine = try! CommandLineParser.shareParser.parse("svn cat -ctv")!
         
         XCTAssertTrue(commandLine1.isEqual(commandLine2))
         XCTAssertTrue(commandLine2.isEqual(commandLine3))

@@ -14,56 +14,49 @@ public class CommandLineParser: NSObject {
     
     var commandLine : CommandLine!
     
-    public func parse(command: String) -> CommandLine? {
-        
-        var error : Int = 0
-        
+    enum ParseCmdError : ErrorType {
+        case ErrorOption(option : String)
+        case InvalidString(str : String)
+    }
+    
+    public func parse(command: String) throws -> CommandLine? {
         let arr : [String] = command.componentsSeparatedByString(" ")
-        
         let commandLine = CommandLine()
         commandLine.command = arr.first;
         
         if (arr.count >= 2) {
             var tempOption : CommandOption?
-            
             for index in 1...arr.count - 1 {
-                var value : String = arr[index]
-                
-                if (value.isEmpty) {
+                let str : String = arr[index]
+                if (str.isEmpty) {
                     continue
-                } else if (value.hasPrefix("-")) {
-                    value = value.stringByReplacingOccurrencesOfString("-", withString: "")
-        
-                    if (value.isEmpty) {
-                        error = 1
-                        break;
-                    } else if (value.characters.count == 1) {
+                } else if (str.hasPrefix("-")) {
+                    let pureValue = str.stringByReplacingOccurrencesOfString("-", withString: "")
+                    if (pureValue.isEmpty) {
+                        throw ParseCmdError.ErrorOption(option: str)
+                    } else if (pureValue.characters.count == 1) {
                         let commandOption = CommandOption()
-                        commandOption.option = value
+                        commandOption.option = pureValue
                         commandLine.appendOption(commandOption)
                         tempOption = commandOption
                     } else {
-                        for char in value.characters {
+                        for char in pureValue.characters {
                             let commandOption = CommandOption()
                             commandOption.option = String(char)
                             commandLine.appendOption(commandOption)
                         }
                     }
                 } else {
+                    //TODO: is params valid?
                     if ((tempOption) != nil) {
-                        tempOption!.argument = value
+                        tempOption!.argument = str
                         commandLine.appendOption(tempOption)
                         tempOption = nil
                     } else {
-                        commandLine.appendArgument(value)
+                        commandLine.appendArgument(str)
                     }
                 }
             }
-        }
-        
-        if error != 0 {
-            print("get an error when parse: \(command)");
-            return nil
         }
         return commandLine;
     }
