@@ -14,6 +14,15 @@ public class CommandLine: NSObject {
     private var arguments : [String]!
     private var options : [CommandOption]!
     
+    public func getArguments() -> [String] {
+        return [String](arguments)
+    }
+    
+    public func  getOptions() -> [CommandOption] {
+        return [CommandOption](options)
+    }
+    
+    
     override init() {
         command = ""
         arguments = [String]()

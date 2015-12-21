@@ -60,4 +60,43 @@ public class CommandLineParser: NSObject {
         }
         return commandLine;
     }
+    
+    enum BuildCmdError : ErrorType {
+        case CmdNotFound(cmd : String)
+        case InvalidOption(option : String)
+        case InvalidArgument(argument : String)
+    }
+    
+    public func buildCommand(commandLine : CommandLine) throws -> Command? {
+        let cmdType : String = commandLine.command
+        var command : Command?
+        switch cmdType {
+        case "cat":
+            command = cat(path: ShellCore.defaultShellCore.homepath)
+        case "ls":
+            command = ls(path: ShellCore.defaultShellCore.homepath)
+        case "cd":
+            command = cd(path: ShellCore.defaultShellCore.homepath)
+        default:
+            break
+        }
+        
+        guard let _ = command else {
+            throw BuildCmdError.CmdNotFound(cmd: cmdType)
+        }
+        
+        for argument in commandLine.getArguments() {
+            guard let _ = command!.appendArgument(argument) else {
+                throw BuildCmdError.InvalidArgument(argument: argument)
+            }
+        }
+        
+        for option in commandLine.getOptions() {
+            guard let _ = command!.appendOption(option) else {
+                throw BuildCmdError.InvalidOption(option: option.option)
+            }
+        }
+        
+        return command
+    }
 }
