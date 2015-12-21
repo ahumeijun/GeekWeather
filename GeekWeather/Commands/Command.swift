@@ -8,8 +8,8 @@
 
 import UIKit
 
-class Command: NSObject {
-    private(set) var workPath : String {
+public class Command: NSObject {
+    internal(set) var workPath : String {
         get {
             return self.workPath
         }
@@ -18,8 +18,35 @@ class Command: NSObject {
         }
     }
     
+    var arguments = [String]()
+    var options = [CommandOption]()
+    var validOptions : [String]
+    
     init(path : String) {
+        validOptions = [String]()
         super.init()
         workPath = path
     }
+    
+    func appendArgument(argument : String!) -> Bool! {
+        arguments.append(argument)
+        return true
+    }
+    
+    func appendOption(option : CommandOption!) -> Bool! {
+        if self.validOptions.contains(option.option) {
+            options.append(option)
+            return true
+        }
+        return false
+    }
+    
+    enum CmdExecError : ErrorType{
+        case CmdNotImp
+    }
+    
+    func execute() throws -> String! {
+        throw CmdExecError.CmdNotImp
+    }
+    
 }

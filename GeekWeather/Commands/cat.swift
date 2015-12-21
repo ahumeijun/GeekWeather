@@ -8,6 +8,6 @@
 
 import UIKit
 
-class Cat: Command {
+class cat: Command {
 
 }
