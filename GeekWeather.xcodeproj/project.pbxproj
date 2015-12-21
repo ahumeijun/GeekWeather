@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E90DA6391C27FD2700A16939 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90DA6381C27FD2700A16939 /* extensions.swift */; };
 		E95C84781C22B4BB00F897A9 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95C84771C22B4BB00F897A9 /* Command.swift */; };
 		E95C847A1C22B50000F897A9 /* cat.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95C84791C22B50000F897A9 /* cat.swift */; };
 		E95C847C1C22B51600F897A9 /* ls.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95C847B1C22B51600F897A9 /* ls.swift */; };
@@ -43,6 +44,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E90DA6381C27FD2700A16939 /* extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
 		E95C84771C22B4BB00F897A9 /* Command.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 		E95C84791C22B50000F897A9 /* cat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cat.swift; sourceTree = "<group>"; };
 		E95C847B1C22B51600F897A9 /* ls.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ls.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				E97088191C203A4400053A75 /* CommandLineParser.swift */,
+				E90DA6381C27FD2700A16939 /* extensions.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 				E97088161C2039F800053A75 /* CommandLine.swift in Sources */,
 				E95C847A1C22B50000F897A9 /* cat.swift in Sources */,
 				E95C847C1C22B51600F897A9 /* ls.swift in Sources */,
+				E90DA6391C27FD2700A16939 /* extensions.swift in Sources */,
 				E97087DF1C202CEF00053A75 /* ViewController.swift in Sources */,
 				E95C847E1C22B54B00F897A9 /* cd.swift in Sources */,
 				E97088181C203A2200053A75 /* CommandOption.swift in Sources */,
