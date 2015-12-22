@@ -67,7 +67,7 @@ public class CommandLineParser: NSObject {
         case InvalidArgument(argument : String)
     }
     
-    public func buildCommand(commandLine : CommandLine) throws -> Command? {
+    public func buildCommand(commandLine : CommandLine) throws -> Command! {
         let cmdType : String = commandLine.command
         var command : Command?
         switch cmdType {
