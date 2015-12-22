@@ -21,6 +21,11 @@ class ls: Command {
     
     override internal func execute() throws -> String! {
         var results : [String] = [String]()
+        
+        if self.arguments.isEmpty {
+            self.arguments.append("");
+        }
+        
         for path in self.arguments {
             let relativePath = self.workPath + "/\(path)"
             var fullpath : String?
