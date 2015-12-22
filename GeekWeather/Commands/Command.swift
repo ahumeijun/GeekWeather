@@ -9,14 +9,8 @@
 import UIKit
 
 public class Command: NSObject {
-    internal(set) var workPath : String {
-        get {
-            return self.workPath
-        }
-        set(path) {
-            self.workPath = path
-        }
-    }
+    
+    var workPath : String!
     
     var arguments = [String]()
     var options = [CommandOption]()
@@ -28,12 +22,12 @@ public class Command: NSObject {
         workPath = path
     }
     
-    func appendArgument(argument : String!) -> Bool! {
+    public func appendArgument(argument : String!) -> Bool! {
         arguments.append(argument)
         return true
     }
     
-    func appendOption(option : CommandOption!) -> Bool! {
+    public func appendOption(option : CommandOption!) -> Bool! {
         if self.validOptions.contains(option.option) {
             options.append(option)
             return true
@@ -41,11 +35,11 @@ public class Command: NSObject {
         return false
     }
     
-    enum CmdExecError : ErrorType{
+    public enum CmdExecError : ErrorType{
         case CmdNotImp
     }
     
-    func execute() throws -> String! {
+    public func execute() throws -> String! {
         throw CmdExecError.CmdNotImp
     }
     
