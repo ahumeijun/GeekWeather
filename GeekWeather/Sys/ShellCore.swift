@@ -18,7 +18,13 @@ class ShellCore: NSObject {
     
     var homepath : String! {
         get {
-            return NSHomeDirectory().stringByAppendingString("/Documents/root")
+            return "~"
+        }
+    }
+    
+    var user: String! {
+        get {
+            return "foobar"
         }
     }
     
@@ -37,20 +43,12 @@ class ShellCore: NSObject {
     func execute(command : Command!) -> Bool {
         
         var result : String!
-        switch command {
-        case let cmd as ls:
-            do {
-                result = try cmd.execute()
-            } catch ls.LsCmdExecError.DirNotFound(let dir) {
-                result = "\(dir) not found"
-            } catch {
-                result = "unknown error"
-            }
-        case let cmd as cd:
-            print("cmd is \(cmd)")
-            break
-        default:
-            break
+        do {
+            result = try command.execute()
+        } catch Command.CmdExecError.DirNotFound(let dir) {
+            result = "\(dir) not found"
+        } catch {
+            result = "unknown error"
         }
         
         self.delegate?.didReturnResult(result)
@@ -62,6 +60,7 @@ class ShellCore: NSObject {
     enum PathError : ErrorType {
         case UnavailableComponent(component : String)
         case PathNotFound(path : String)
+        case InvalidComponent(cmpnt : String)
     }
     
     /**
@@ -78,30 +77,27 @@ class ShellCore: NSObject {
         var absPath : [String] = [String]()
         let cmpnts = preprocessing(originalPath).componentsSeparatedByString("/")
         for cmpnt in cmpnts {
-            if absPath.count == 0 {
-                if cmpnt == "~" {
-                    absPath.append(cmpnt)
+            guard isValid(cmpnt) else {
+                throw PathError.InvalidComponent(cmpnt: cmpnt)
+            }
+            
+            if cmpnt.isEmpty {
+                continue
+            } else if cmpnt == "." {
+                continue
+            } else if cmpnt == ".." {
+                if absPath.count == 0 {
+                    throw PathError.UnavailableComponent(component: "/..")
                 } else {
-                    absPath.removeAll()
-                    throw PathError.UnavailableComponent(component: homepath)
+                    absPath.removeLast()
                 }
             } else {
-                if cmpnt == ".." {
-                    if absPath.count == 1 {
-                        throw PathError.PathNotFound(path: "~/..")
-                    } else {
-                        absPath.removeLast()
-                    }
-                } else if cmpnt == "." {
-                    continue
-                } else if isValid(cmpnt) {
-                    absPath.append(cmpnt)
-                } else {
-                    throw PathError.UnavailableComponent(component: cmpnt)
-                }
+                absPath.append(cmpnt)
             }
         }
-        return absPath.joinWithSeparator("/")
+        var path = "/"
+        path += absPath.joinWithSeparator("/")
+        return path
     }
     
     /**
@@ -125,14 +121,31 @@ class ShellCore: NSObject {
      */
     func preprocessing(path : String) -> String {
         //TODO: process alias, macro, varible and so on
-        return path
+        var temp = path
+        temp = temp.stringByReplacingOccurrencesOfString("~", withString: "/User/\(user)")
+        return temp
+    }
+    
+    /**
+     transform shell path to ios system path
+     
+     - parameter shellPath: shell path, like "/Users/xxx/Documents/myfile.txt"
+     
+     - returns: system sanbox path
+     */
+    private func systemPath(shellPath : String) -> String! {
+        let prefix = NSHomeDirectory().stringByAppendingString("/Documents/Shell")
+        let absShellPath = try! getAbsPath(shellPath)
+        let fullpath = prefix + "/\(absShellPath)"
+        return fullpath
     }
     
     override init() {
         super.init()
-        workPath = "~"
-        if !NSFileManager.defaultManager().fileExistsAtPath(homepath) {
-            try! NSFileManager.defaultManager().createDirectoryAtPath(homepath, withIntermediateDirectories: true, attributes: nil)
+        workPath = homepath
+        let fullHomepath = systemPath(try! getAbsPath(homepath))
+        if !NSFileManager.defaultManager().fileExistsAtPath(fullHomepath) {
+            try! NSFileManager.defaultManager().createDirectoryAtPath(fullHomepath, withIntermediateDirectories: true, attributes: nil)
         }
     }
 }
