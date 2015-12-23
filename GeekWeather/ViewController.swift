@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, ShellCoreDelegate {
 
     var textView: UITextView!
     
@@ -24,6 +24,8 @@ class ViewController: UIViewController {
         textView.textColor = UIColor.greenColor()
         textView.font = UIFont.systemFontOfSize(14.0)
         self.view .addSubview(textView)
+        
+        self.testCmdExec()
 
     }
 
@@ -32,6 +34,18 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-
+    func testCmdExec() {
+        let commandLine1 : CommandLine = try! CommandLineParser.shareParser.parse("ls asd -1 -a")!
+        let command = try! CommandLineParser.shareParser.buildCommand(commandLine1)
+        ShellCore.defaultShellCore.delegate = self
+        let ret = ShellCore.defaultShellCore.execute(command)
+        if ret {
+            print(":>")
+        }
+    }
+    
+    func didReturnResult(result: String!) {
+        print(result);
+    }
 }
 

@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol ShellCoreDelegate {
+    func didReturnResult(result : String!)
+}
+
 class ShellCore: NSObject {
     
     static let defaultShellCore : ShellCore = ShellCore()
@@ -20,11 +24,38 @@ class ShellCore: NSObject {
     
     var workPath : String!
     
+    var delegate : ShellCoreDelegate?
+    
+    
+    func execute(command : Command!) -> Bool {
+        
+        var result : String!
+        switch command {
+        case let cmd as ls:
+            do {
+                result = try cmd.execute()
+            } catch ls.LsCmdExecError.DirNotFound(let dir) {
+                result = "\(dir) not found"
+            } catch {
+                result = "unknown error"
+            }
+        case let cmd as cd:
+            print("cmd is \(cmd)")
+            break
+        default:
+            break
+        }
+        
+        self.delegate?.didReturnResult(result)
+        
+        return true
+    }
+    
+    
     enum PathError : ErrorType {
         case UnavailableComponent(component : String)
         case PathNotFound(path : String)
     }
-    
     
     func getAbsPath() throws -> String {
         var absPath : [String] = [String]()
