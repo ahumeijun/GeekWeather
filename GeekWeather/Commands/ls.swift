@@ -15,29 +15,44 @@ class ls: Command {
         self.validOptions = ["1", "a"]
     }
     
-    enum LsCmdExecError : ErrorType{
-        case DirNotFound(dir : String)
-    }
-    
-    override internal func execute() throws -> String! {
+    override func execute() throws -> String! {
         var results : [String] = [String]()
         
         if self.arguments.isEmpty {
             self.arguments.append("");
         }
         
+        let shellCore = ShellCore.defaultShellCore
+        
         for path in self.arguments {
-            let relativePath = self.workPath + "/\(path)"
             var fullpath : String?
-            if NSFileManager.defaultManager().fileExistsAtPath(relativePath) {
-                fullpath = relativePath
-            }
-            else {
-                let absolutePath = ShellCore.defaultShellCore.homepath + "/\(path)"
-                if NSFileManager.defaultManager().fileExistsAtPath(absolutePath) {
-                    fullpath = absolutePath
-                } else {
-                    throw LsCmdExecError.DirNotFound(dir: path)
+            
+            if path == "" {
+                fullpath = shellCore.systemPath(shellCore.homepath)
+            } else if path.characters.contains(".") {
+                do {
+                    let relpath = try shellCore.getAbsPath("\(shellCore.workPath)/\(path)")
+                    if NSFileManager.defaultManager().fileExistsAtPath(relpath) {
+                        fullpath = relpath
+                    }
+                } catch {
+                    throw error
+                }
+            } else {
+                do {
+                    let abspath = try shellCore.getAbsPath(path)
+                    //list absolute path first
+                    let fullAbspath = shellCore.systemPath(abspath)
+                    if NSFileManager.defaultManager().fileExistsAtPath(fullAbspath) {
+                        fullpath = fullAbspath
+                    } else {
+                        let relpath = shellCore.workPath + abspath
+                        if NSFileManager.defaultManager().fileExistsAtPath(relpath) {
+                            fullpath = relpath
+                        }
+                    }
+                } catch {
+                    throw error
                 }
             }
 
@@ -49,6 +64,10 @@ class ls: Command {
                 
             var count = 3
             for option in self.options {
+                guard self.validOptions.contains(option.option) else {
+                    throw CmdExecError.InvalidOption(opt: option.option)
+                }
+                
                 switch option.option {
                 case "1":
                     count = 1

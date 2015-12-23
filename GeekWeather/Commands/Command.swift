@@ -37,6 +37,9 @@ public class Command: NSObject {
     
     public enum CmdExecError : ErrorType{
         case CmdNotImp
+        case DirNotFound(path : String)
+        case InvalidArgument(arg : String)
+        case InvalidOption(opt : String)
     }
     
     public func execute() throws -> String! {
