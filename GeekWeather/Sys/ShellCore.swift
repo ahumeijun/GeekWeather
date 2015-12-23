@@ -26,7 +26,14 @@ class ShellCore: NSObject {
     
     var delegate : ShellCoreDelegate?
     
-    
+    /**
+     command execute
+     the result will popup by ShellCoreDelegate
+     
+     - parameter command: Command object, cannot be nil
+     
+     - returns: return true if execute cmd succeeded, otherwise false
+     */
     func execute(command : Command!) -> Bool {
         
         var result : String!
@@ -57,9 +64,19 @@ class ShellCore: NSObject {
         case PathNotFound(path : String)
     }
     
-    func getAbsPath() throws -> String {
+    /**
+     get absolute path from original path which contains alias, varible or abbreviation
+     for example: ., .., $WORK_PATH
+     
+     - parameter originalPath: original path
+     
+     - throws: PathError enums
+     
+     - returns: absolute path
+     */
+    func getAbsPath(originalPath : String!) throws -> String {
         var absPath : [String] = [String]()
-        let cmpnts = preprocessing(workPath).componentsSeparatedByString("/")
+        let cmpnts = preprocessing(originalPath).componentsSeparatedByString("/")
         for cmpnt in cmpnts {
             if absPath.count == 0 {
                 if cmpnt == "~" {
@@ -77,7 +94,7 @@ class ShellCore: NSObject {
                     }
                 } else if cmpnt == "." {
                     continue
-                } else if islegal(cmpnt) {
+                } else if isValid(cmpnt) {
                     absPath.append(cmpnt)
                 } else {
                     throw PathError.UnavailableComponent(component: cmpnt)
@@ -87,11 +104,25 @@ class ShellCore: NSObject {
         return absPath.joinWithSeparator("/")
     }
     
-    func islegal(filename : String) -> Bool {
-        //TODO: is file name legal?
+    /**
+     check the filename or path component is valid or not
+     
+     - parameter filename: filename or path component
+    
+     - returns: return true if valid, otherwise false
+     */
+    func isValid(filename : String) -> Bool {
+        //TODO: is file name valid?
         return true
     }
     
+    /**
+     translate alias, macro or varible to it's reality value
+     
+     - parameter path: oringinal path
+     
+     - returns: pure path
+     */
     func preprocessing(path : String) -> String {
         //TODO: process alias, macro, varible and so on
         return path

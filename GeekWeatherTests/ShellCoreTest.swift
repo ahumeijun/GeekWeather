@@ -37,7 +37,7 @@ class ShellCoreTest: XCTestCase {
         let shellCore = ShellCore.defaultShellCore
         shellCore.workPath = "~/hello/.././world/doc/../release"
         do {
-            let absPath = try shellCore.getAbsPath();
+            let absPath = try shellCore.getAbsPath(shellCore.workPath);
             let expect = "~/world/release"
             XCTAssertTrue(absPath == expect)
         } catch {
