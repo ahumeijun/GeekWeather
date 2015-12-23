@@ -28,7 +28,16 @@ class ShellCore: NSObject {
         }
     }
     
-    var workPath : String!
+    private var workPathImp : String!
+    
+    var workPath : String! {
+        get {
+            return try! self.getAbsPath(self.workPathImp)
+        }
+        set(path) {
+            self.workPathImp = path;
+        }
+    }
     
     var delegate : ShellCoreDelegate?
     
@@ -133,7 +142,7 @@ class ShellCore: NSObject {
      
      - returns: system sanbox path
      */
-    private func systemPath(shellPath : String) -> String! {
+    func systemPath(shellPath : String) -> String! {
         let prefix = NSHomeDirectory().stringByAppendingString("/Documents/Shell")
         let absShellPath = try! getAbsPath(shellPath)
         let fullpath = prefix + "/\(absShellPath)"
@@ -142,7 +151,7 @@ class ShellCore: NSObject {
     
     override init() {
         super.init()
-        workPath = homepath
+        self.workPath = homepath
         let fullHomepath = systemPath(try! getAbsPath(homepath))
         if !NSFileManager.defaultManager().fileExistsAtPath(fullHomepath) {
             try! NSFileManager.defaultManager().createDirectoryAtPath(fullHomepath, withIntermediateDirectories: true, attributes: nil)
