@@ -10,55 +10,34 @@ import UIKit
 
 class ls: Command {
     
-    override init(path: String) {
-        super.init(path: path)
-        self.validOptions = ["1", "a"]
+    override init() {
+        super.init()
+        self.validOptions.appendContentsOf(["1", "a"])
     }
     
     override func execute() throws -> String! {
         var results : [String] = [String]()
         
         if self.arguments.isEmpty {
-            self.arguments.append("");
+            self.arguments.append(".");
         }
         
         let shellCore = ShellCore.defaultShellCore
         
         for path in self.arguments {
-            var fullpath : String?
             
-            if path == "" {
-                fullpath = shellCore.systemPath(shellCore.homepath)
-            } else if path.characters.contains(".") {
-                do {
-                    let relpath = try shellCore.getAbsPath("\(shellCore.workPath)/\(path)")
-                    if NSFileManager.defaultManager().fileExistsAtPath(relpath) {
-                        fullpath = relpath
-                    }
-                } catch {
-                    throw error
-                }
-            } else {
-                do {
-                    let abspath = try shellCore.getAbsPath(path)
-                    //list absolute path first
-                    let fullAbspath = shellCore.systemPath(abspath)
-                    if NSFileManager.defaultManager().fileExistsAtPath(fullAbspath) {
-                        fullpath = fullAbspath
-                    } else {
-                        let relpath = shellCore.workPath + abspath
-                        if NSFileManager.defaultManager().fileExistsAtPath(relpath) {
-                            fullpath = relpath
-                        }
-                    }
-                } catch {
-                    throw error
-                }
+            self.delegate.pathTree.push()
+            defer {
+                self.delegate.pathTree.pop()
             }
-
-            guard let _ = fullpath else {
-                continue
+            
+            do {
+                try self.delegate.pathTree.moveToPath(path)
+            } catch {
+                throw error
             }
+            
+            let fullpath = self.delegate.pathTree.workPtr.syspath()
             
             var paths = try! NSFileManager.defaultManager().contentsOfDirectoryAtPath(fullpath!)
                 

@@ -72,11 +72,11 @@ public class CommandLineParser: NSObject {
         var command : Command?
         switch cmdType {
         case "cat":
-            command = cat(path: ShellCore.defaultShellCore.homepath)
+            command = cat()
         case "ls":
-            command = ls(path: ShellCore.defaultShellCore.homepath)
+            command = ls()
         case "cd":
-            command = cd(path: ShellCore.defaultShellCore.homepath)
+            command = cd()
         default:
             break
         }

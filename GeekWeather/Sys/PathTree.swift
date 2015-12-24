@@ -101,8 +101,6 @@ class PathTree: NSObject {
     init(user: String!) {
         super.init()
         
-        print(NSHomeDirectory())
-        
         rootPtr = PathNode(isDirectory: true, name: "Users")
         
         let homenode = PathNode(isDirectory: true, name: user)

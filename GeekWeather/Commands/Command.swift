@@ -8,18 +8,21 @@
 
 import UIKit
 
+protocol CommandDelegate {
+    var pathTree : PathTree {get}
+}
+
 public class Command: NSObject {
     
-    var workPath : String!
+    var delegate : CommandDelegate!
     
     var arguments = [String]()
     var options = [CommandOption]()
     var validOptions : [String]
     
-    init(path : String) {
+    override init() {
         validOptions = [String]()
         super.init()
-        workPath = path
     }
     
     public func appendArgument(argument : String!) -> Bool! {
@@ -37,7 +40,6 @@ public class Command: NSObject {
     
     public enum CmdExecError : ErrorType{
         case CmdNotImp
-        case DirNotFound(path : String)
         case InvalidArgument(arg : String)
         case InvalidOption(opt : String)
     }

@@ -25,6 +25,7 @@ class ViewController: UIViewController, ShellCoreDelegate {
         textView.font = UIFont.systemFontOfSize(14.0)
         self.view .addSubview(textView)
         
+//        self.testPathTree()
         self.testCmdExec()
 
     }
@@ -33,13 +34,25 @@ class ViewController: UIViewController, ShellCoreDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func testPathTree() {
+        print(PathTree(user: "geek"))
+    }
 
     func testCmdExec() {
-        let commandLine1 : CommandLine = try! CommandLineParser.shareParser.parse("ls asd -1 -a")!
-        let command = try! CommandLineParser.shareParser.buildCommand(commandLine1)
+        let commandLine0 : CommandLine = try! CommandLineParser.shareParser.parse("cd aaa")!
+        let command0 = try! CommandLineParser.shareParser.buildCommand(commandLine0)
         ShellCore.defaultShellCore.delegate = self
-        let ret = ShellCore.defaultShellCore.execute(command)
-        if ret {
+        let ret0 = ShellCore.defaultShellCore.execute(command0)
+        if ret0 {
+            print(":>")
+        }
+        
+        let commandLine1 : CommandLine = try! CommandLineParser.shareParser.parse("ls -1 -a")!
+        let command1 = try! CommandLineParser.shareParser.buildCommand(commandLine1)
+        ShellCore.defaultShellCore.delegate = self
+        let ret1 = ShellCore.defaultShellCore.execute(command1)
+        if ret1 {
             print(":>")
         }
     }
