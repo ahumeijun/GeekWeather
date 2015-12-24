@@ -91,27 +91,92 @@ class PathNode: NSObject {
 
 class PathTree: NSObject {
     
-    var root : PathNode!
+    var rootPtr : PathNode!
     
     var workPtr : PathNode!
+    var homePtr : PathNode!
+    
+    var tempPtr : PathNode?
     
     init(user: String!) {
         super.init()
         
         print(NSHomeDirectory())
         
-        root = PathNode(isDirectory: true, name: "Users")
+        rootPtr = PathNode(isDirectory: true, name: "Users")
         
         let homenode = PathNode(isDirectory: true, name: user)
-        root.addChild(homenode)
+        rootPtr.addChild(homenode)
         homenode.creat()
         homenode.loadChildren()
         
+        homePtr = homenode
         workPtr = homenode
     }
     
+    func push() {
+        tempPtr = workPtr
+    }
+    
+    func pop() {
+        guard let _ = tempPtr else {
+            workPtr = homePtr
+            return
+        }
+        workPtr = tempPtr
+    }
+    
+    enum PathTreeError : ErrorType {
+        case PathNotFound(path : String)
+        case PathNotDirectory(path : String)
+    }
+    
+    func moveToPath(path : String!) throws -> Bool {
+        push()  //save workPtr
+        let rootSearch = path.hasPrefix("/")
+        var components = path.componentsSeparatedByString("/")
+        var temp : PathNode?
+        if rootSearch {
+            temp = self.rootPtr
+            guard components.first! == temp!.name else {
+                throw PathTreeError.PathNotFound(path : path)
+            }
+            components.removeAtIndex(0)
+        } else {
+            temp = workPtr
+        }
+        for component in components {
+            guard temp!.isDirectory else {
+                throw PathTreeError.PathNotDirectory(path: temp!.name)
+            }
+            
+            if component == "." {
+                continue
+            } else if component == ".." {
+                temp = temp!.parent
+            } else {
+                var isExist = false
+                for node in temp!.children! {
+                    if node.name == component {
+                        isExist = true
+                        temp = node
+                    }
+                }
+                guard isExist else {
+                    throw PathTreeError.PathNotFound(path: path)
+                }
+            }
+            
+            guard let _ = temp else {
+                throw PathTreeError.PathNotFound(path: path)
+            }
+        }
+        workPtr = temp
+        return true
+    }
+    
     func traverse() -> String! {
-        return self.traverseNode(1, node: self.root) + "------------"
+        return self.traverseNode(1, node: self.rootPtr) + "------------"
     }
     
     func traverseNode(level : Int, node: PathNode) -> String! {
