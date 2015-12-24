@@ -10,18 +10,26 @@ import UIKit
 
 class PathNode: NSObject {
     var name : String!
-    private var children : [PathNode]!
+    var isDirectory : Bool = false
+    private var children : [PathNode]?
     var parent : PathNode?
     
-    override init() {
+    init(isDirectory: Bool, name: String) {
         super.init()
-        children = [PathNode]()
+        self.isDirectory = isDirectory
+        self.name = name
+        if isDirectory {
+            children = [PathNode]()
+        }
     }
     
     func addChild(child : PathNode) -> Bool {
-        children.append(child)
-        child.parent = self
-        return true
+        if self.isDirectory {
+            children!.append(child)
+            child.parent = self
+            return true
+        }
+        return false
     }
     
     func treepath() -> String! {
@@ -30,7 +38,7 @@ class PathNode: NSObject {
         var v : PathNode? = self
         
         repeat {
-            paths.append(self.name)
+            paths.append(v!.name)
             v = v!.parent
         } while v != nil
         
@@ -55,13 +63,22 @@ class PathNode: NSObject {
     func loadChildren() {
         let syspath = self.syspath()
         let fileManager = NSFileManager.defaultManager()
-        let enumerator = fileManager.enumeratorAtPath(syspath)
-        guard let _ = enumerator else {
+        let components = try? fileManager.contentsOfDirectoryAtPath(syspath)
+        
+        guard let _ = components else {
             return
         }
-        while let element = enumerator!.nextObject() as? String {
-            let node = PathNode()
-            node.name = element
+        
+        guard components!.count != 0 else {
+            return
+        }
+        
+        for element in components! {
+            let path = self.syspath() + "/\(element)"
+            var isDir = ObjCBool(false)
+            fileManager.fileExistsAtPath(path, isDirectory: &isDir)
+            
+            let node = PathNode(isDirectory: isDir.boolValue, name: element)
             self.addChild(node)
             node.loadChildren()
         }
@@ -80,11 +97,12 @@ class PathTree: NSObject {
     
     init(user: String!) {
         super.init()
-        root = PathNode()
-        root.name = "Users"
         
-        let homenode = PathNode()
-        homenode.name = user
+        print(NSHomeDirectory())
+        
+        root = PathNode(isDirectory: true, name: "Users")
+        
+        let homenode = PathNode(isDirectory: true, name: user)
         root.addChild(homenode)
         homenode.creat()
         homenode.loadChildren()
@@ -104,7 +122,12 @@ class PathTree: NSObject {
             i = i - 1
         }
         desc += " \(node.name)\n"
-        for child in node.children {
+        
+        guard node.isDirectory else {
+            return desc
+        }
+        
+        for child in node.children! {
             desc += traverseNode(level+1, node: child)
         }
         return desc
