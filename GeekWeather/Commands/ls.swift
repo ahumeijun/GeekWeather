@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CocoaLumberjack
 
 class ls: Command {
     
@@ -18,11 +19,15 @@ class ls: Command {
     override func execute() throws -> String! {
         var results : [String] = [String]()
         
+        for option in self.options {
+            if let argument = option.argument {
+                self.arguments.append(argument)
+            }
+        }
+        
         if self.arguments.isEmpty {
             self.arguments.append(".");
         }
-        
-        let shellCore = ShellCore.defaultShellCore
         
         for path in self.arguments {
             
@@ -36,6 +41,8 @@ class ls: Command {
             } catch {
                 throw error
             }
+            
+            DDLogDebug("ls path is \(self.delegate.pathTree.workPtr.treepath())")
             
             let fullpath = self.delegate.pathTree.workPtr.syspath()
             

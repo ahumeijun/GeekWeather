@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CocoaLumberjack
 
 class ViewController: UIViewController, ShellCoreDelegate {
 
@@ -36,29 +37,24 @@ class ViewController: UIViewController, ShellCoreDelegate {
     }
     
     func testPathTree() {
-        print(PathTree(user: "geek"))
+        DDLogInfo("\(PathTree(user: "geek"))")
     }
 
     func testCmdExec() {
-        let commandLine0 : CommandLine = try! CommandLineParser.shareParser.parse("cd aaa")!
-        let command0 = try! CommandLineParser.shareParser.buildCommand(commandLine0)
         ShellCore.defaultShellCore.delegate = self
-        let ret0 = ShellCore.defaultShellCore.execute(command0)
-        if ret0 {
-            print(":>")
-        }
-        
-        let commandLine1 : CommandLine = try! CommandLineParser.shareParser.parse("ls -1 -a")!
-        let command1 = try! CommandLineParser.shareParser.buildCommand(commandLine1)
-        ShellCore.defaultShellCore.delegate = self
-        let ret1 = ShellCore.defaultShellCore.execute(command1)
-        if ret1 {
-            print(":>")
-        }
+        ShellCore.defaultShellCore.execute("ls -1")
+        ShellCore.defaultShellCore.execute("ls -1 aaa") //!!!
+        ShellCore.defaultShellCore.execute("cd aaa")
+        ShellCore.defaultShellCore.execute("ls -1")
+        ShellCore.defaultShellCore.execute("cd ./../bbb")
+        ShellCore.defaultShellCore.execute("ls -1")
+        ShellCore.defaultShellCore.execute("ls -1 ../aaa") //!!!
+        ShellCore.defaultShellCore.execute("git status")
+        ShellCore.defaultShellCore.execute("ls -b") //!!!
     }
     
     func didReturnResult(result: String!) {
-        print(result);
+        DDLogInfo("\n\(result)");
     }
 }
 

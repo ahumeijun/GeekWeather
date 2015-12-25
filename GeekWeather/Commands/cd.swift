@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CocoaLumberjack
 
 class cd: Command {
     
@@ -33,7 +34,7 @@ class cd: Command {
             throw error
         }
         
-        print("current path:\(self.delegate.pathTree.workPtr.treepath())")
+        DDLogDebug("current path:\(self.delegate.pathTree.workPtr.treepath())")
         
         return ""
     }

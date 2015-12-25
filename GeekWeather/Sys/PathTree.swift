@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CocoaLumberjack
 
 class PathNode: NSObject {
     var name : String!
@@ -130,6 +131,7 @@ class PathTree: NSObject {
     }
     
     func moveToPath(path : String!) throws -> Bool {
+        DDLogDebug("try move to path \(path)")
         push()  //save workPtr
         let rootSearch = path.hasPrefix("/")
         var components = path.componentsSeparatedByString("/")
@@ -143,6 +145,7 @@ class PathTree: NSObject {
         } else {
             temp = workPtr
         }
+        DDLogDebug("temp node is \(temp!.name)")
         for component in components {
             guard temp!.isDirectory else {
                 throw PathTreeError.PathNotDirectory(path: temp!.name)
@@ -168,6 +171,7 @@ class PathTree: NSObject {
             guard let _ = temp else {
                 throw PathTreeError.PathNotFound(path: path)
             }
+            DDLogDebug("temp node is \(temp!.name)")
         }
         workPtr = temp
         return true
