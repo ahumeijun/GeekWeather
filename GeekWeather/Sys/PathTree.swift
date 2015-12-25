@@ -24,6 +24,14 @@ class PathNode: NSObject {
         }
     }
     
+    func contents() -> [String]! {
+        if self.isDirectory {
+            return self.children!.map({node in node.name})
+        } else {
+            return [String]()
+        }
+    }
+    
     func addChild(child : PathNode) -> Bool {
         if self.isDirectory {
             children!.append(child)

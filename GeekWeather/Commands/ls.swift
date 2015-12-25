@@ -44,10 +44,8 @@ class ls: Command {
             
             DDLogDebug("ls path is \(self.delegate.pathTree.workPtr.treepath())")
             
-            let fullpath = self.delegate.pathTree.workPtr.syspath()
+            var paths = self.delegate.pathTree.workPtr.contents()
             
-            var paths = try! NSFileManager.defaultManager().contentsOfDirectoryAtPath(fullpath!)
-                
             var count = 3
             for option in self.options {
                 guard self.validOptions.contains(option.option) else {
