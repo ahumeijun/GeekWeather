@@ -26,7 +26,14 @@ class PathNode: NSObject {
     
     func contents() -> [String]! {
         if self.isDirectory {
-            return self.children!.map({node in node.name})
+            return self.children!.map({
+                node in
+                if node.isDirectory {
+                    return "\(node.name)/"
+                } else {
+                    return node.name
+                }
+            })
         } else {
             return [String]()
         }
@@ -159,7 +166,7 @@ class PathTree: NSObject {
                 throw PathTreeError.PathNotDirectory(path: temp!.name)
             }
             
-            if component == "" {
+            if component.isEmpty {
                 continue
             } else if component == "." {
                 continue

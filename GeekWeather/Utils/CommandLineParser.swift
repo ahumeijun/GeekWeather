@@ -79,6 +79,8 @@ public class CommandLineParser: NSObject {
             command = cd()
         case "mkdir":
             command = mkdir()
+        case "touch":
+            command = touch()
         default:
             break
         }
