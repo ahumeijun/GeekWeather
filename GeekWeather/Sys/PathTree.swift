@@ -159,7 +159,9 @@ class PathTree: NSObject {
                 throw PathTreeError.PathNotDirectory(path: temp!.name)
             }
             
-            if component == "." {
+            if component == "" {
+                continue
+            } else if component == "." {
                 continue
             } else if component == ".." {
                 temp = temp!.parent
