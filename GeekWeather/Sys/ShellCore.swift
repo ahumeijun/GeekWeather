@@ -50,7 +50,7 @@ class ShellCore: NSObject, CommandDelegate {
             commandLine = try CommandLineParser.shareParser.parse(string)
         } catch {
             DDLogWarn("command parse error.")
-            self.delegate?.didReturnResult("command parse error.")
+            self.delegate?.didReturnResult("command parse error:\(error)")
             return false
         }
         
@@ -59,7 +59,7 @@ class ShellCore: NSObject, CommandDelegate {
             command = try CommandLineParser.shareParser.buildCommand(commandLine!)
         } catch {
             DDLogWarn("command build error.")
-            self.delegate?.didReturnResult("command build error.")
+            self.delegate?.didReturnResult("command build error:\(error)")
             return false
         }
         
@@ -68,7 +68,7 @@ class ShellCore: NSObject, CommandDelegate {
             result = try self.execute(command!)
         } catch {
             DDLogWarn("command execute error.")
-            self.delegate?.didReturnResult("command execute error.")
+            self.delegate?.didReturnResult("command execute error:\(error)")
             return false
         }
         
