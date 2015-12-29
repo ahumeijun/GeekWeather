@@ -70,7 +70,11 @@ class PathNode: NSObject {
     
     func creat() -> Bool {
         if !NSFileManager.defaultManager().fileExistsAtPath(self.syspath()) {
-            try! NSFileManager.defaultManager().createDirectoryAtPath(self.syspath(), withIntermediateDirectories: true, attributes: nil);
+            if self.isDirectory {
+                try! NSFileManager.defaultManager().createDirectoryAtPath(self.syspath(), withIntermediateDirectories: true, attributes: nil)
+            } else {
+                NSFileManager.defaultManager().createFileAtPath(self.syspath(), contents: nil, attributes: nil)
+            }
             return true
         }
         return false

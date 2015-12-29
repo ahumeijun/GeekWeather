@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CocoaLumberjack
 
 class mkdir: Command {
 
@@ -34,6 +35,11 @@ class mkdir: Command {
             
             let pathNode = PathNode(isDirectory: true, name: newdir)
             self.delegate.pathTree.workPtr.addChild(pathNode)
+            let isCreated = pathNode.creat()
+            guard isCreated else {
+                DDLogError("create dir failed.")
+                throw CmdExecError.PathExist(path: pathNode.name)
+            }
         }
         return ""
     }

@@ -42,6 +42,7 @@ public class Command: NSObject {
         case CmdNotImp
         case InvalidArgument(arg : String)
         case InvalidOption(opt : String)
+        case PathExist(path : String)
     }
     
     public func execute() throws -> String! {

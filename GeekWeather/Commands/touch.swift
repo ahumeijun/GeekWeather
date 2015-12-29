@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CocoaLumberjack
 
 /// create new file only
 class touch: Command {
@@ -35,6 +36,11 @@ class touch: Command {
             
             let pathNode = PathNode(isDirectory: false, name: newdir)
             self.delegate.pathTree.workPtr.addChild(pathNode)
+            let isCreated = pathNode.creat()
+            guard isCreated else {
+                DDLogError("create file failed.")
+                throw CmdExecError.PathExist(path: pathNode.name)
+            }
         }
         return ""
     }

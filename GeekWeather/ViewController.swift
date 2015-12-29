@@ -43,14 +43,18 @@ class ViewController: UIViewController, ShellCoreDelegate {
     func testCmdExec() {
         ShellCore.defaultShellCore.delegate = self
         ShellCore.defaultShellCore.execute("ls -1")
-        ShellCore.defaultShellCore.execute("ls -1 aaa") //!!!
+        ShellCore.defaultShellCore.execute("ls -1 aaa")
         ShellCore.defaultShellCore.execute("cd aaa")
         ShellCore.defaultShellCore.execute("ls -1")
         ShellCore.defaultShellCore.execute("cd ./../bbb")
         ShellCore.defaultShellCore.execute("ls -1")
-        ShellCore.defaultShellCore.execute("ls -1 ../aaa") //!!!
+        ShellCore.defaultShellCore.execute("ls -1 ../aaa")
         ShellCore.defaultShellCore.execute("git status")
-        ShellCore.defaultShellCore.execute("ls -b") //!!!
+        ShellCore.defaultShellCore.execute("ls -b")
+        ShellCore.defaultShellCore.execute("cd bbb")
+        ShellCore.defaultShellCore.execute("mkdir ppp ooo iii sadf dsfr wrio")
+        ShellCore.defaultShellCore.execute("touch file")
+        ShellCore.defaultShellCore.execute("ls -1")
     }
     
     func didReturnResult(result: String!) {
