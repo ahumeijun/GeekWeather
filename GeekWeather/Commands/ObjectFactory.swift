@@ -8,6 +8,8 @@
 
 import UIKit
 
-class ObjectFactory: NSObject {
-
+class ObjectFactory<T : NSObject> {
+    class func creatInstance(className : String!) -> T? {
+        return OBJCObjectFactory.create(className) as! T?
+    }
 }

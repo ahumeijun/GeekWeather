@@ -10,4 +10,6 @@
 
 @interface OBJCObjectFactory : NSObject
 
++ (id)create:(NSString *)className;
+
 @end

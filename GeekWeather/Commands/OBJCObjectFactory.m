@@ -10,4 +10,9 @@
 
 @implementation OBJCObjectFactory
 
++ (id)create:(NSString *)className
+{
+    return [[NSClassFromString(className) alloc] init];
+}
+
 @end

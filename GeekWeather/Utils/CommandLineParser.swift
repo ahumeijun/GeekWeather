@@ -69,21 +69,23 @@ public class CommandLineParser: NSObject {
     
     public func buildCommand(commandLine : CommandLine) throws -> Command! {
         let cmdType : String = commandLine.command
-        var command : Command?
-        switch cmdType {
-        case "cat":
-            command = cat()
-        case "ls":
-            command = ls()
-        case "cd":
-            command = cd()
-        case "mkdir":
-            command = mkdir()
-        case "touch":
-            command = touch()
-        default:
-            break
-        }
+//        var command : Command?
+//        switch cmdType {
+//        case "cat":
+//            command = cat()
+//        case "ls":
+//            command = ls()
+//        case "cd":
+//            command = cd()
+//        case "mkdir":
+//            command = mkdir()
+//        case "touch":
+//            command = touch()
+//        default:
+//            break
+//        }
+        let classname = "GeekWeather.\(cmdType)"   //!!!
+        let command = ObjectFactory<Command>.creatInstance(classname)
         
         guard let _ = command else {
             throw BuildCmdError.CmdNotFound(cmd: cmdType)

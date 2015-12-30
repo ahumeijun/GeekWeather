@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		579BCD7FFE861326B9D7B26D /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18D04EE02794C1A9F75AF706 /* Pods.framework */; };
 		E901D8AF1C2AA0A700BB4A41 /* PathTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = E901D8AE1C2AA0A700BB4A41 /* PathTree.swift */; };
+		E90652181C338320005EAD72 /* OBJCObjectFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = E90652171C338320005EAD72 /* OBJCObjectFactory.m */; };
+		E906521A1C3383CF005EAD72 /* ObjectFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90652191C3383CF005EAD72 /* ObjectFactory.swift */; };
 		E90DA6391C27FD2700A16939 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90DA6381C27FD2700A16939 /* extensions.swift */; };
 		E90DA63F1C2A408F00A16939 /* touch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90DA63E1C2A408F00A16939 /* touch.swift */; };
 		E90DA6411C2A409C00A16939 /* mkdir.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90DA6401C2A409C00A16939 /* mkdir.swift */; };
@@ -52,6 +54,10 @@
 		4784102E7647CC815A6D0AC6 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		7DA5E95DF954FBFE58716228 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		E901D8AE1C2AA0A700BB4A41 /* PathTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathTree.swift; sourceTree = "<group>"; };
+		E90652151C33831F005EAD72 /* GeekWeather-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GeekWeather-Bridging-Header.h"; sourceTree = "<group>"; };
+		E90652161C338320005EAD72 /* OBJCObjectFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBJCObjectFactory.h; sourceTree = "<group>"; };
+		E90652171C338320005EAD72 /* OBJCObjectFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBJCObjectFactory.m; sourceTree = "<group>"; };
+		E90652191C3383CF005EAD72 /* ObjectFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectFactory.swift; sourceTree = "<group>"; };
 		E90DA6381C27FD2700A16939 /* extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
 		E90DA63E1C2A408F00A16939 /* touch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = touch.swift; sourceTree = "<group>"; };
 		E90DA6401C2A409C00A16939 /* mkdir.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mkdir.swift; sourceTree = "<group>"; };
@@ -131,6 +137,10 @@
 				E95C847D1C22B54B00F897A9 /* cd.swift */,
 				E90DA63E1C2A408F00A16939 /* touch.swift */,
 				E90DA6401C2A409C00A16939 /* mkdir.swift */,
+				E90652161C338320005EAD72 /* OBJCObjectFactory.h */,
+				E90652171C338320005EAD72 /* OBJCObjectFactory.m */,
+				E90652191C3383CF005EAD72 /* ObjectFactory.swift */,
+				E90652151C33831F005EAD72 /* GeekWeather-Bridging-Header.h */,
 			);
 			path = Commands;
 			sourceTree = "<group>";
@@ -413,6 +423,7 @@
 				E90DA63F1C2A408F00A16939 /* touch.swift in Sources */,
 				E95C847A1C22B50000F897A9 /* cat.swift in Sources */,
 				E95C847C1C22B51600F897A9 /* ls.swift in Sources */,
+				E90652181C338320005EAD72 /* OBJCObjectFactory.m in Sources */,
 				E90DA6391C27FD2700A16939 /* extensions.swift in Sources */,
 				E97087DF1C202CEF00053A75 /* ViewController.swift in Sources */,
 				E95C847E1C22B54B00F897A9 /* cd.swift in Sources */,
@@ -421,6 +432,7 @@
 				E90DA6411C2A409C00A16939 /* mkdir.swift in Sources */,
 				E901D8AF1C2AA0A700BB4A41 /* PathTree.swift in Sources */,
 				E970881A1C203A4400053A75 /* CommandLineParser.swift in Sources */,
+				E906521A1C3383CF005EAD72 /* ObjectFactory.swift in Sources */,
 				E95C84781C22B4BB00F897A9 /* Command.swift in Sources */,
 				E95C84811C22B92B00F897A9 /* ShellCore.swift in Sources */,
 			);
@@ -557,10 +569,13 @@
 			baseConfigurationReference = 7DA5E95DF954FBFE58716228 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = GeekWeather/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rangerstudio.GeekWeather;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "GeekWeather/Commands/GeekWeather-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -569,10 +584,12 @@
 			baseConfigurationReference = 4784102E7647CC815A6D0AC6 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = GeekWeather/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rangerstudio.GeekWeather;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "GeekWeather/Commands/GeekWeather-Bridging-Header.h";
 			};
 			name = Release;
 		};
