@@ -71,6 +71,8 @@ class ls: Command {
                 if count == 0 {
                     result += "\n"
                     count = max
+                } else {
+                    result += "   "
                 }
             }
             if result.characters.last != "\n" {
