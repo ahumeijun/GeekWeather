@@ -32,38 +32,4 @@ class ShellCoreTest: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
-    
-    func testAbsPath() {
-        let shellCore = ShellCore.defaultShellCore
-        let path = "~/hello/.././world/doc/../release"
-        do {
-            let absPath = try shellCore.getAbsPath(path);
-            let expect = "/User/foobar/world/release"
-            XCTAssertTrue(absPath == expect)
-        } catch {
-            XCTFail()
-            print("thrown error")
-        }
-        
-        let oripath1 = "~"
-        let abspath1 = try! shellCore.getAbsPath(oripath1)
-        let exppath1 = "/User/foobar"
-        XCTAssertEqual(abspath1, exppath1)
-        
-        let oripath2 = "~"
-        let abspath2 = try! shellCore.getAbsPath(oripath2)
-        let exppath2 = "/User/foobar"
-        XCTAssertEqual(abspath2, exppath2)
-        
-        let oripath3 = "~/.."
-        let abspath3 = try! shellCore.getAbsPath(oripath3)
-        let exppath3 = "/User"
-        XCTAssertEqual(abspath3, exppath3)
-        
-        let oripath4 = "~/../.."
-        let abspath4 = try! shellCore.getAbsPath(oripath4)
-        let exppath4 = "/"
-        XCTAssertEqual(abspath4, exppath4)
-    }
-    
 }
