@@ -22,8 +22,14 @@ class touch: Command {
             defer {
                 self.delegate.pathTree.pop()
             }
-            let newdir  = path.componentsSeparatedByString("/").last!
-            let end = newdir.characters.count
+            
+            let newfile  = path.componentsSeparatedByString("/").last!
+            guard RegEx.filenameRegEx.isMatching(newfile) else {
+                throw CmdExecError.InvalidFileOrDir(name: newfile)
+            }
+
+            
+            let end = newfile.characters.count
             
             let dir = path.substringToIndex(path.endIndex.advancedBy(-end))
             
@@ -34,7 +40,7 @@ class touch: Command {
                 throw error
             }
             
-            let pathNode = PathNode(isDirectory: false, name: newdir)
+            let pathNode = PathNode(isDirectory: false, name: newfile)
             self.delegate.pathTree.workPtr.addChild(pathNode)
             let isCreated = pathNode.creat()
             guard isCreated else {

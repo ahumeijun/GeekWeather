@@ -21,7 +21,12 @@ class mkdir: Command {
             defer {
                 self.delegate.pathTree.pop()
             }
+            
             let newdir  = path.componentsSeparatedByString("/").last!
+            guard RegEx.dirnameRegEx.isMatching(newdir) else {
+                throw CmdExecError.InvalidFileOrDir(name: newdir)
+            }
+            
             let end = newdir.characters.count
             
             let dir = path.substringToIndex(path.endIndex.advancedBy(-end))

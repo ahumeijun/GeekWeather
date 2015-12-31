@@ -43,6 +43,7 @@ public class Command: NSObject {
         case InvalidArgument(arg : String)
         case InvalidOption(opt : String)
         case PathExist(path : String)
+        case InvalidFileOrDir(name : String)
     }
     
     public func execute() throws -> String! {
