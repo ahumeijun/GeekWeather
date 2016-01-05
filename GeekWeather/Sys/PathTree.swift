@@ -13,7 +13,15 @@ class PathNode: NSObject {
     var name : String!
     var isDirectory : Bool = false
     private var children : [PathNode]?
-    var parent : PathNode?
+    private var parent : PathNode?
+    
+    var superNode : PathNode? {
+        return self.parent
+    }
+    
+    var kids : [PathNode] {
+        return self.children!.map({node in node})
+    }
     
     init(isDirectory: Bool, name: String) {
         super.init()
@@ -33,7 +41,7 @@ class PathNode: NSObject {
                 } else {
                     return node.name
                 }
-            })
+            }).sort()
         } else {
             return [String]()
         }
@@ -109,6 +117,72 @@ class PathNode: NSObject {
     }
 }
 
+/// symbolic link, help to analyze "." and ".."
+class LinkNode: PathNode {
+    let target : PathNode!
+    
+    override var superNode : PathNode? {
+        return self.target.parent
+    }
+    
+    override var kids : [PathNode] {
+        return self.target.children!.map({node in node})
+    }
+    
+    init(target : PathNode, name: String){
+        self.target = target
+        super.init(isDirectory: false, name: name)
+    }
+    
+    class func addDefaultLink(pathNode : PathNode) {
+        let selfPtr = LinkNode(target: pathNode, name: ".")
+        var superPtr : LinkNode!
+        if let v = pathNode.parent {
+            superPtr = LinkNode(target: v, name: "..")
+        } else {
+            superPtr = LinkNode(target: pathNode, name: "..")
+        }
+        
+        let children = pathNode.kids
+        pathNode.addChild(selfPtr)
+        pathNode.addChild(superPtr)
+        
+        for child in children {
+            if child.isDirectory {
+                LinkNode.addDefaultLink(child)
+            }
+        }
+    }
+    
+    override func contents() -> [String]! {
+        return self.target.contents()
+    }
+    
+    override func addChild(child: PathNode) -> Bool {
+        return self.target.addChild(child)
+    }
+    
+    override func treepath() -> String! {
+        return self.target.treepath()
+    }
+    
+    override func syspath() -> String! {
+        return self.target.syspath()
+    }
+    
+    override func creat() -> Bool {
+        return self.target.creat()
+    }
+    
+    override func loadChildren() {
+        self.target.loadChildren()
+    }
+    
+    override var description : String {
+        return "->\(name)"
+    }
+}
+
 class PathTree: NSObject {
     
     var rootPtr : PathNode!
@@ -127,6 +201,8 @@ class PathTree: NSObject {
         rootPtr.addChild(homenode)
         homenode.creat()
         homenode.loadChildren()
+        
+        LinkNode.addDefaultLink(rootPtr)
         
         homePtr = homenode
         workPtr = homenode
@@ -172,16 +248,16 @@ class PathTree: NSObject {
             
             if component.isEmpty {
                 continue
-            } else if component == "." {
-                continue
-            } else if component == ".." {
-                temp = temp!.parent
             } else {
                 var isExist = false
-                for node in temp!.children! {
+                for node in temp!.kids {
                     if node.name == component {
                         isExist = true
-                        temp = node
+                        if let v = node as? LinkNode {
+                            temp = v.target
+                        } else {
+                            temp = node
+                        }
                     }
                 }
                 guard isExist else {
